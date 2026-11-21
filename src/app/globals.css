@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+@theme static {
+  /* Same as ANTIQUE_PALETTES[0] so the first paint matches the canvas. */
+  --color-paper: #b9b9b9;
+  --color-ink: #111111;
+  --font-sans: var(--font-inter-tight), Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
