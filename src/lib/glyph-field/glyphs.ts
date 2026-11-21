@@ -4,6 +4,7 @@ export const GLYPH_COLUMNS = 5;
 export const GLYPH_ROWS = 7;
 export type Glyph = readonly number[];
 export const BLANK_GLYPH: Glyph = [0, 0, 0, 0, 0, 0, 0];
+export const FULL_GLYPH: Glyph = [31, 31, 31, 31, 31, 31, 31];
 
 const strokes: readonly Glyph[] = [
   [31, 0, 0, 0, 0, 0, 0], [0, 0, 0, 31, 0, 0, 0], [0, 0, 0, 0, 0, 0, 31],

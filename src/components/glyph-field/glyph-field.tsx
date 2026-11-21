@@ -77,14 +77,14 @@ export default function GlyphField({ words = [], cellWidth, cellHeight, minColum
       if (!layout) {
         return;
       }
-      const visibleCells = new Uint8Array(cellVisible);
+      const wordCells = new Uint8Array(cellVisible.length);
       if (masks.length) {
         const state = revealStateAt(elapsed);
         const mask = masks[media.matches ? 0 : state.cycle % masks.length];
         mask.cells?.forEach((cell, index) => {
           const threshold = mask.thresholds[index];
           if (media.matches || isMaskCellActive(state.phase, state.progress, threshold)) {
-            visibleCells[cell] = 1;
+            wordCells[cell] = 1;
           }
         });
       }
@@ -102,7 +102,7 @@ export default function GlyphField({ words = [], cellWidth, cellHeight, minColum
         sprite = createDotSprite(layout, palette.dot);
         colorKey = nextKey;
       }
-      renderFrame(context, layout, palette.background, stripeA, stripeB, sprite, pool, glyphs, visibleCells);
+      renderFrame(context, layout, palette.background, stripeA, stripeB, sprite, pool, glyphs, cellVisible, wordCells);
       dirty = false;
     }
     function animate(time: number) {

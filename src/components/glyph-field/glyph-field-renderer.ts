@@ -1,4 +1,5 @@
 import { createRandom } from "@/lib/glyph-field/random";
+import { FULL_GLYPH } from "@/lib/glyph-field/glyphs";
 import type { Glyph } from "@/lib/glyph-field/glyphs";
 
 const STRIPE_OPACITY = 0.35;
@@ -77,7 +78,7 @@ export function createDotSprite(layout: GlyphFieldLayout, color: string): HTMLCa
   return canvas;
 }
 
-export function renderFrame(context: CanvasRenderingContext2D, layout: GlyphFieldLayout, background: string, stripeA: HTMLCanvasElement, stripeB: HTMLCanvasElement, dotSprite: HTMLCanvasElement, pool: readonly Glyph[], cellGlyphs: Uint16Array, visibleCells: Uint8Array): void {
+export function renderFrame(context: CanvasRenderingContext2D, layout: GlyphFieldLayout, background: string, stripeA: HTMLCanvasElement, stripeB: HTMLCanvasElement, dotSprite: HTMLCanvasElement, pool: readonly Glyph[], cellGlyphs: Uint16Array, visibleCells: Uint8Array, wordCells: Uint8Array): void {
   context.fillStyle = background;
   context.fillRect(0, 0, context.canvas.width, context.canvas.height);
   context.globalAlpha = STRIPE_OPACITY;
@@ -87,10 +88,10 @@ export function renderFrame(context: CanvasRenderingContext2D, layout: GlyphFiel
   for (let row = 0; row < layout.rows; row++) {
     for (let column = 0; column < layout.columns; column++) {
       const cell = row * layout.columns + column;
-      if (visibleCells[cell] !== 1) {
+      if (wordCells[cell] !== 1 && visibleCells[cell] !== 1) {
         continue;
       }
-      const glyph = pool[cellGlyphs[cell]];
+      const glyph = wordCells[cell] === 1 ? FULL_GLYPH : pool[cellGlyphs[cell]];
       const left = layout.offsetX + column * layout.cellWidth + (layout.cellWidth - 5 * layout.dotPitch) / 2;
       const top = layout.offsetY + row * layout.cellHeight + (layout.cellHeight - layout.rowGap - 7 * layout.dotPitch) / 2;
       for (let y = 0; y < 7; y++) {
